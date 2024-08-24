@@ -1,1 +1,3 @@
 # EJEMPLO PATRONES DE DISEÑO
+
+## Diagramas
