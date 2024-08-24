@@ -6,5 +6,5 @@
 
 
 <kbd>
-  <img src="../examples/pattern_diagrams/_Design_patterns_v1.svg" alt="pattern singleton" />
+  <img src="/pattern_diagrams/_Design_patterns_v1.svg" alt="pattern singleton" />
 </kbd>
