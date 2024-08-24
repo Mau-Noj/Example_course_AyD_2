@@ -1,3 +1,10 @@
 # EJEMPLO PATRONES DE DISEÑO
 
-## Diagramas
+
+## Explanation of each design pattern seen in class
+
+
+
+<kbd>
+  <img src="../examples/pattern_diagrams/_Design_patterns_v1.svg" alt="pattern singleton" />
+</kbd>
