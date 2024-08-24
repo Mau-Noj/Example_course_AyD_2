@@ -1,0 +1,1 @@
+# Explanation of each design pattern seen in class
