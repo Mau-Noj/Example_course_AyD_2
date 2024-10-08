@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ProductList from '../src/components/ProductList';
+import ProductDetails from '../src/components/ProductDetails';
 
 function App() {
+  const [selectedProductId, setSelectedProductId] = useState(null);
+
+  const handleSelectProduct = (id) => {
+    setSelectedProductId(id);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Fake Store</h1>
+      <div style={{ display: 'flex', gap: '20px' }}>
+        <ProductList onSelectProduct={handleSelectProduct} />
+        <ProductDetails productId={selectedProductId} />
+      </div>
     </div>
   );
 }
