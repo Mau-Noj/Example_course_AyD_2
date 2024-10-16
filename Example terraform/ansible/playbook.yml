@@ -1,0 +1,68 @@
+- name: Configurar Git, clonar repositorio, generar build de React y crear imagen Docker
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Instalar Git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: Clonar el repositorio privado usando un token de acceso personal
+      git:
+        repo: 'https://{{ lookup("env", "GIT_TOKEN") }}@github.com/tu_usuario/tu_repositorio.git'
+        dest: /home/brandonromero1964/curso_docker
+        version: "main"
+        force: yes
+
+    - name: Instalar curl
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Descargar script de NodeSource para Node.js 20.x
+      command: curl -fsSL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
+
+    - name: Ejecutar script de NodeSource
+      command: bash /tmp/nodesource_setup.sh
+
+    - name: Instalar Node.js y npm (v20.17.0 y npm 10.8.2)
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Actualizar npm a la versión 10.8.2
+      command: npm install -g npm@10.8.2
+
+    - name: Limpiar dependencias anteriores (node_modules y package-lock.json)
+      command: rm -rf node_modules package-lock.json
+      args:
+        chdir: /home/brandonromero1964/curso_docker/my-app
+
+    - name: Instalar dependencias del proyecto
+      command: npm install
+      args:
+        chdir: /home/brandonromero1964/curso_docker/my-app
+
+    - name: Generar build de la aplicación React
+      command: npm run build
+      args:
+        chdir: /home/brandonromero1964/curso_docker/my-app
+
+    - name: Agregar usuario al grupo Docker para evitar usar sudo
+      user:
+        name: brandonromero1964
+        groups: docker
+        append: yes
+
+    - name: Construir la imagen Docker desde el Dockerfile
+      command: docker build -t my-react-app .
+      args:
+        chdir: /home/brandonromero1964/curso_docker/my-app
+
+    - name: Ejecutar el contenedor de la imagen Docker
+      command: docker run -d -p 3000:80 --name my-react-app-container my-react-app
+
+    - name: Verificar que el contenedor esté corriendo
+      command: docker ps
